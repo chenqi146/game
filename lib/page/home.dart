@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,5 +47,30 @@ class _HomePage extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadCounter();
+
+
+  }
+
+  _loadCounter() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // 判断是否设置用户信息
+    var user = prefs.getString("user");
+    if (user == null) {
+      // 生成随机可读中文名称
+      var random = Random();
+      var name = "";
+      for (var i = 0; i < 3; i++) {
+        name += String.fromCharCode(random.nextInt(20902) + 19968);
+      }
+      prefs.setString("user", name);
+    }
   }
 }
