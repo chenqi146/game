@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:game/page/home.dart';
+import 'package:game/page/home/view.dart';
 import 'package:game/page/undercover/home.dart';
 import 'package:game/page/undercover/room.dart';
 
 
 final Map<String,Function> routes = {
-  '/': (context) => const HomePage(),
+  '/': (context) => HomePage(),
   '/undercover': (context) => const UndercoverHomePage(),
   '/undercover/createRoom': (context) => const RoomCreatePage()
 };

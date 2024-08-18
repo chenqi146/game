@@ -62,7 +62,7 @@ class _RoomCreatePage extends State<RoomCreatePage> {
                 ],
               ),
               const SizedBox(width: 16),
-               Column(
+              Column(
                 children: [
                   const SizedBox(height: 16),
                   const Text('卧底数量'),
@@ -87,7 +87,7 @@ class _RoomCreatePage extends State<RoomCreatePage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => RoomPage(
-                    roomId: '123456',
+                    roomId: 123456,
                     playerNum: playerNum,
                     undercoverNum: undercoverNum,
                     civiliansNum: civiliansNum,
@@ -104,7 +104,7 @@ class _RoomCreatePage extends State<RoomCreatePage> {
 }
 
 class RoomPage extends StatefulWidget {
-  final String roomId;
+  int? roomId;
 
   final int playerNum;
 
@@ -114,9 +114,9 @@ class RoomPage extends StatefulWidget {
   // 平民数量
   final int civiliansNum;
 
-  const RoomPage(
+  RoomPage(
       {super.key,
-      required this.roomId,
+      this.roomId,
       required this.playerNum,
       required this.undercoverNum,
       required this.civiliansNum});

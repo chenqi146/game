@@ -31,7 +31,18 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: ^2.0.8
+  # 网络请求
   dio: ^4.0.0
+  dio_cache_interceptor: ^3.0.1
+  dio_cookie_manager: ^2.0.0
+  english_words: ^4.0.0
+  get: ^4.1.4
+  json_annotation: ^4.9.0
+  # 工具类
+  flustars: ^2.0.1
+  # 弹窗
+  flutter_smart_dialog: ^4.9.3+2
+  universal_io: ^2.2.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -41,6 +52,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  json_serializable: ^6.8.0
+  build_runner: 2.3.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -61,8 +74,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
