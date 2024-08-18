@@ -17,8 +17,9 @@ class UserRepository extends GetxService {
     return res.convert();
   }
 
-  Future<void> updateUser(int id, String nickname, String? avatar) async {
-    await httpClient.post("/user/update",
+  Future<R<void>> updateUser(int id, String nickname, String? avatar) async {
+    final res = await httpClient.post("/user/update",
         data: {"id": id, "nickname": nickname, "avatar": avatar});
+    return res;
   }
 }

@@ -17,7 +17,7 @@ abstract class BaseStatefulPage<C extends GetxController> extends StatefulWidget
 
   C? _logic;
 
-  C get controller => _logic ?? EmptyLogic() as C ;
+  C get logic => _logic ?? EmptyLogic() as C ;
 
   void _createLogic() {
     try {

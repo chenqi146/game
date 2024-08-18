@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:game/common/base/base_stateful_page.dart';
+import 'package:game/common/utils/utils.dart';
 import 'package:game/service/user_service.dart';
+import 'package:get/get.dart';
 
 import 'logic.dart';
 
@@ -43,36 +45,37 @@ class _HomePage extends State<HomePage> {
               ),
               Align(
                 alignment: Alignment.centerRight,
-                child: Column(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          _showUserDialog();
-                        },
-                        iconSize: 10,
-                        icon: Container(
-                          width: 48.0, // 设置外部容器的宽度
-                          height: 48.0, // 设置外部容器的高度
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.black, // 边框颜色
-                              width: 1.0, // 边框宽度
-                            ),
-                          ),
-                          child: const CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            backgroundImage:
-                                AssetImage('assets/images/gopher.png'),
-                            radius: 20,
-                          ),
-                        )),
-                    Text(
-                      UserService.to.getNickName,
-                      style: const TextStyle(fontSize: 10),
-                    ),
-                  ],
-                ),
+                child: Obx(() => Column(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              _showUserDialog();
+                            },
+                            iconSize: 10,
+                            icon: Container(
+                              width: 48.0, // 设置外部容器的宽度
+                              height: 48.0, // 设置外部容器的高度
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.black, // 边框颜色
+                                  width: 1.0, // 边框宽度
+                                ),
+                              ),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                backgroundImage:
+                                    // AssetImage("assets/images/avatar/avataaars1.png"),
+                                    AssetImage(UserService.to.getAvatarUrl()),
+                                radius: 20,
+                              ),
+                            )),
+                        Text(
+                          UserService.to.getNickName,
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      ],
+                    )),
               ),
             ],
           ),
@@ -102,6 +105,9 @@ class _HomePage extends State<HomePage> {
     SmartDialog.show(builder: (_) {
       final TextEditingController controller =
           TextEditingController(text: UserService.to.getNickName);
+
+      Rx<String> avatar = UserService.to.getAvatarUrl().obs;
+      Rx<String> avatarSource = UserService.to.getAvatarUrl().obs;
       return Container(
           width: 300,
           height: 360,
@@ -115,9 +121,11 @@ class _HomePage extends State<HomePage> {
             child: Column(
               children: [
                 const SizedBox(height: 36),
-                IconButton(
+                Obx(() => IconButton(
                     onPressed: () {
-                      // todo 点击切换头像
+                      // 点击切换头像
+                      avatarSource.value = UserService.to.getDefaultAvatar();
+                      avatar.value = Utils.getAvatarUrl(avatarSource.value);
                     },
                     iconSize: 10,
                     icon: Container(
@@ -130,12 +138,12 @@ class _HomePage extends State<HomePage> {
                           width: 1.0, // 边框宽度
                         ),
                       ),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         backgroundColor: Colors.transparent,
-                        backgroundImage: AssetImage('assets/images/gopher.png'),
+                        backgroundImage: AssetImage(avatar.value),
                         radius: 20,
                       ),
-                    )),
+                    ))),
                 // 输入框
                 const SizedBox(height: 16),
                 Row(
@@ -167,15 +175,19 @@ class _HomePage extends State<HomePage> {
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent, // 背景颜色
-                        foregroundColor: Colors.white, // 文字颜色
-                        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 16),
+                        backgroundColor: Colors.blueAccent,
+                        // 背景颜色
+                        foregroundColor: Colors.white,
+                        // 文字颜色
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 60, vertical: 16),
                         textStyle: const TextStyle(fontSize: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8), // 圆角
                         ),
                       ),
-                      onPressed: () => (),
+                      onPressed: () =>
+                          (_saveUserInfo(controller.text, avatarSource.value)),
                       child: const Text('确认'),
                     ),
                   ],
@@ -190,5 +202,13 @@ class _HomePage extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  _saveUserInfo(String nickName, String avatar) {
+    widget.logic.updateUserInfo(
+      nickName,
+      avatar,
+    );
+    SmartDialog.dismiss();
   }
 }
