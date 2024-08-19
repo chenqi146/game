@@ -1,9 +1,11 @@
 
+import 'package:game/api/room_repository.dart';
 import 'package:game/api/user_repository.dart';
 import 'package:game/app_constants.dart';
 import 'package:game/common/http_client.dart';
 import 'package:game/common/http_config.dart';
 import 'package:game/common/http_interceptor.dart';
+import 'package:game/service/room_service.dart';
 import 'package:game/service/user_service.dart';
 import 'package:get/get.dart';
 
@@ -19,10 +21,13 @@ class AppBinding extends Bindings {
         interceptors: [UserIdInterceptor()]);
     Get.put(HttpClient(), permanent: true);
 
+    Get.put(RoomRepository(httpClient: Get.find()));
     Get.put(UserRepository(httpClient: Get.find()));
 
     // 用户信息服务（用户信息相关业务类）
     Get.put(UserService(userRepository: Get.find()));
+    Get.put(RoomService(repository: Get.find()));
+
 
   }
 }

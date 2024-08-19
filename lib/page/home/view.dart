@@ -36,7 +36,8 @@ class _HomePage extends State<HomePage> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      '游戏大厅',
+                      // '游戏大厅',
+                      'XXXX',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
@@ -65,7 +66,6 @@ class _HomePage extends State<HomePage> {
                               child: CircleAvatar(
                                 backgroundColor: Colors.transparent,
                                 backgroundImage:
-                                    // AssetImage("assets/images/avatar/avataaars1.png"),
                                     AssetImage(UserService.to.getAvatarUrl()),
                                 radius: 20,
                               ),
@@ -102,101 +102,106 @@ class _HomePage extends State<HomePage> {
   }
 
   void _showUserDialog() {
-    SmartDialog.show(builder: (_) {
-      final TextEditingController controller =
-          TextEditingController(text: UserService.to.getNickName);
+    SmartDialog.show(
+        usePenetrate: false,
+        keepSingle: true,
+        builder: (_) {
+          final TextEditingController controller =
+              TextEditingController(text: UserService.to.getNickName);
 
-      Rx<String> avatar = UserService.to.getAvatarUrl().obs;
-      Rx<String> avatarSource = UserService.to.getAvatarUrl().obs;
-      return Container(
-          width: 300,
-          height: 360,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          alignment: Alignment.center,
-          child: Align(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                const SizedBox(height: 36),
-                Obx(() => IconButton(
-                    onPressed: () {
-                      // 点击切换头像
-                      avatarSource.value = UserService.to.getDefaultAvatar();
-                      avatar.value = Utils.getAvatarUrl(avatarSource.value);
-                    },
-                    iconSize: 10,
-                    icon: Container(
-                      width: 128.0, // 设置外部容器的宽度
-                      height: 128.0, // 设置外部容器的高度
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.black, // 边框颜色
-                          width: 1.0, // 边框宽度
-                        ),
-                      ),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: AssetImage(avatar.value),
-                        radius: 20,
-                      ),
-                    ))),
-                // 输入框
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          Rx<String> avatar = UserService.to.getAvatarUrl().obs;
+          Rx<String> avatarSource = UserService.to.getAvatar.obs;
+          return Container(
+              width: 300,
+              height: 360,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              alignment: Alignment.center,
+              child: Align(
+                alignment: Alignment.center,
+                child: Column(
                   children: [
-                    // const Text('昵称:'),
-                    // const SizedBox(width: 10),
-                    Container(
-                      width: 160,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextField(
-                        // 默认值
-                        controller: controller,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(left: 10, bottom: 10),
+                    const SizedBox(height: 36),
+                    Obx(() => IconButton(
+                        onPressed: () {
+                          // 点击切换头像
+                          avatarSource.value =
+                              UserService.to.getDefaultAvatar();
+                          avatar.value = Utils.getAvatarUrl(avatarSource.value);
+                        },
+                        iconSize: 10,
+                        icon: Container(
+                          width: 128.0, // 设置外部容器的宽度
+                          height: 128.0, // 设置外部容器的高度
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.black, // 边框颜色
+                              width: 1.0, // 边框宽度
+                            ),
+                          ),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: AssetImage(avatar.value),
+                            radius: 20,
+                          ),
+                        ))),
+                    // 输入框
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // const Text('昵称:'),
+                        // const SizedBox(width: 10),
+                        Container(
+                          width: 160,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: TextField(
+                            // 默认值
+                            controller: controller,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding:
+                                  EdgeInsets.only(left: 10, bottom: 10),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blueAccent,
+                            // 背景颜色
+                            foregroundColor: Colors.white,
+                            // 文字颜色
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 60, vertical: 16),
+                            textStyle: const TextStyle(fontSize: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8), // 圆角
+                            ),
+                          ),
+                          onPressed: () => (_saveUserInfo(
+                              controller.text, avatarSource.value)),
+                          child: const Text('确认'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 36),
                   ],
                 ),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
-                        // 背景颜色
-                        foregroundColor: Colors.white,
-                        // 文字颜色
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 60, vertical: 16),
-                        textStyle: const TextStyle(fontSize: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8), // 圆角
-                        ),
-                      ),
-                      onPressed: () =>
-                          (_saveUserInfo(controller.text, avatarSource.value)),
-                      child: const Text('确认'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 36),
-              ],
-            ),
-          ));
-    });
+              ));
+        });
   }
 
   @override

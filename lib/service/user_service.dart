@@ -30,49 +30,42 @@ class UserService extends GetxService {
   @override
   void onInit() async {
 
-    SpUtil.putInt("userId", 1);
-    SpUtil.putString("nickName", "cq");
-    SpUtil.putString("avatar", "avataaars1");
-    this.userId.value = 1;
-    this.nickName.value = "cq";
-    this.avatar.value = "avataaars1";
-
-    // int? userId = SpUtil.getInt("userId");
-    // if (userId == null || userId <= 0) {
-    //   // 创建一个用户
-    //   SmartDialog.showLoading();
-    //   var nickName = WordPair.random().asCamelCase;
-    //   var avatar = getDefaultAvatar();
-    //   R<int> r = await userRepository.createUser(nickName, avatar);
-    //   SmartDialog.dismiss(status: SmartStatus.loading);
-    //   if (r.ok) {
-    //     userId = r.data;
-    //     this.userId.value = userId!;
-    //     this.nickName.value = nickName;
-    //     this.avatar.value = avatar;
-    //     SpUtil.putInt("userId", userId);
-    //     SpUtil.putString("nickName", nickName);
-    //     SpUtil.putString("avatar", avatar);
-    //   } else {
-    //     SmartDialog.showToast(r.error?.message ?? "创建用户失败");
-    //   }
-    // } else {
-    //   this.userId.value = userId;
-    //   nickName.value = SpUtil.getString("nickName")!;
-    //   avatar.value = SpUtil.getString("avatar")!;
-    // }
+    int? userId = SpUtil.getInt("userId");
+    if (userId == null || userId <= 0) {
+      // 创建一个用户
+      SmartDialog.showLoading();
+      var nickName = WordPair.random().asCamelCase;
+      var avatar = getDefaultAvatar();
+      R<int> r = await userRepository.createUser(nickName, avatar);
+      SmartDialog.dismiss(status: SmartStatus.loading);
+      if (r.ok) {
+        userId = r.data;
+        this.userId.value = userId!;
+        this.nickName.value = nickName;
+        this.avatar.value = avatar;
+        SpUtil.putInt("userId", userId);
+        SpUtil.putString("nickName", nickName);
+        SpUtil.putString("avatar", avatar);
+      } else {
+        SmartDialog.showToast(r.error?.message ?? "创建用户失败");
+      }
+    } else {
+      this.userId.value = userId;
+      nickName.value = SpUtil.getString("nickName")!;
+      avatar.value = SpUtil.getString("avatar")!;
+    }
     super.onInit();
   }
 
   updateUserInfo(String nickName, String avatar) async {
 
-    // var userId = SpUtil.getInt("userId");
-    // R<void> res = await userRepository.updateUser(userId!, nickName, avatar);
-    // if (!res.ok) {
-    //   SmartDialog.showToast(res.error?.message ?? "更新用户信息失败");
-    //   return;
-    // }
-    //
+    var userId = SpUtil.getInt("userId");
+    R<void> res = await userRepository.updateUser(userId!, nickName, avatar);
+    if (!res.ok) {
+      SmartDialog.showToast(res.error?.message ?? "更新用户信息失败");
+      return;
+    }
+
     this.nickName.value = nickName;
     this.avatar.value = avatar;
     SpUtil.putString("nickName", nickName);
@@ -84,7 +77,7 @@ class UserService extends GetxService {
   }
 
   // 获取一个随机头像
-  String getDefaultAvatar() {
+  String getDefaultAvatar({String? avatar}) {
     // 读取assets目录下的所有头像
     List<String> avatars = [
       "avataaars1",
@@ -96,6 +89,11 @@ class UserService extends GetxService {
       "avataaars7",
       "avataaars8",
     ];
+
+    if (avatar != null && avatar.isNotEmpty) {
+      avatars.remove(avatar);
+    }
+
     return avatars[Random().nextInt(avatars.length)];
   }
 
