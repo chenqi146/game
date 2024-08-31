@@ -43,6 +43,7 @@ dependencies:
   # 弹窗
   flutter_smart_dialog: ^4.9.3+2
   universal_io: ^2.2.2
+  web_socket_channel: ^2.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
