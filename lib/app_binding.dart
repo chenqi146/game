@@ -7,6 +7,7 @@ import 'package:game/common/http_config.dart';
 import 'package:game/common/http_interceptor.dart';
 import 'package:game/service/room_service.dart';
 import 'package:game/service/user_service.dart';
+import 'package:game/service/ws_service.dart';
 import 'package:get/get.dart';
 
 ///异步注入构造方法中的对象 用于Api网络请求相关的注入
@@ -19,14 +20,15 @@ class AppBinding extends Bindings {
     HttpConfig dioConfig = HttpConfig(
         baseUrl: ApiConstants.baseUrl,
         interceptors: [UserIdInterceptor()]);
-    Get.put(HttpClient(), permanent: true);
+    Get.put(HttpClient(dioConfig: dioConfig), permanent: true);
 
     Get.put(RoomRepository(httpClient: Get.find()));
     Get.put(UserRepository(httpClient: Get.find()));
 
     // 用户信息服务（用户信息相关业务类）
     Get.put(UserService(userRepository: Get.find()));
-    Get.put(RoomService(repository: Get.find()));
+    Get.put(WebsocketService());
+    Get.put(RoomService(repository: Get.find(), wsService: Get.find()));
 
 
   }

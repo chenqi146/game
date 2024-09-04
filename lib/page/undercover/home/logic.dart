@@ -18,6 +18,13 @@ class HomeLogic extends GetxController {
 
   joinRoom(int roomNumber) {
     print('加入房间号：$roomNumber');
+
+    // todo 调用接口
+
+    // 跳转到房间大厅
+
+
+    // 建立ws
   }
 
   void updatePlayerNum(int playerNum) {
@@ -37,8 +44,13 @@ class HomeLogic extends GetxController {
 
 
     int roomId = await RoomService.to.createRoom(CreateRoomReq(playerNum.value, undercoverNum.value, civiliansNum.value));
+    if (roomId == 0) {
+      // todo 提示创建失败
+      return;
+    }
     SpUtil.putInt("roomId", roomId);
 
+    // todo 跳转到房间大厅
 
 
   }

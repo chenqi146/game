@@ -24,9 +24,10 @@ class WebsocketService {
 
   void send(String message) {
     print('send message: $message');
+    channel?.sink.add(message);
   }
 
   void close() {
-    print('close ws connection');
+    channel?.sink.close();
   }
 }
