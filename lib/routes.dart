@@ -1,30 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:game/page/home/view.dart';
 import 'package:game/page/undercover/home/view.dart';
-import 'package:game/page/undercover/room.dart';
+import 'package:game/page/undercover/room/view.dart';
+import 'package:get/get_navigation/src/routes/get_route.dart';
 
 
-final Map<String,Function> routes = {
-  '/': (context) => HomePage(),
-  '/undercover': (context) => UndercoverHomePage(),
-  '/undercover/createRoom': (context) => const RoomCreatePage()
-};
-
-//固定写法
-var onGenerateRoute = (RouteSettings settings) {
-  // 统一处理
-  final String? name = settings.name;
-  final Function? pageContentBuilder = routes[name];
-  if (pageContentBuilder != null) {
-    if (settings.arguments != null) {
-      final Route route = MaterialPageRoute(
-          builder: (context) =>
-              pageContentBuilder(context, arguments: settings.arguments));
-      return route;
-    } else {
-      final Route route =
-          MaterialPageRoute(builder: (context) => pageContentBuilder(context));
-      return route;
-    }
-  }
-};
+final List<GetPage> routes = [
+  GetPage(name: '/', page: () => HomePage()),
+  GetPage(name: '/undercover', page: () => UndercoverHomePage()),
+  GetPage(name: '/undercover/room/:roomId', page: () => RoomPage())
+];

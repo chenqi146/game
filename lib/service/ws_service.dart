@@ -1,4 +1,5 @@
 import 'package:game/app_constants.dart';
+import 'package:game/common/utils/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebsocketService {
@@ -23,7 +24,7 @@ class WebsocketService {
   }
 
   void send(String message) {
-    print('send message: $message');
+    LoggerUtil.i('send message: $message');
     channel?.sink.add(message);
   }
 

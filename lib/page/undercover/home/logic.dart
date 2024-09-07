@@ -1,4 +1,5 @@
 import 'package:flustars/flustars.dart';
+import 'package:game/common/utils/logger.dart';
 import 'package:game/models/create_room.dart';
 import 'package:game/service/room_service.dart';
 import 'package:get/get.dart';
@@ -40,14 +41,10 @@ class HomeLogic extends GetxController {
   }
 
   void createRoom() async {
-    print('创建房间 $playerNum $undercoverNum $civiliansNum');
+    LoggerUtil.i('创建房间 $playerNum $undercoverNum $civiliansNum');
 
 
     int roomId = await RoomService.to.createRoom(CreateRoomReq(playerNum.value, undercoverNum.value, civiliansNum.value));
-    if (roomId == 0) {
-      // todo 提示创建失败
-      return;
-    }
     SpUtil.putInt("roomId", roomId);
 
     // todo 跳转到房间大厅
