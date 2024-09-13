@@ -1,10 +1,16 @@
 import 'package:flustars/flustars.dart';
 import 'package:game/common/utils/logger.dart';
 import 'package:game/models/create_room.dart';
+import 'package:game/page/undercover/room/view.dart';
 import 'package:game/service/room_service.dart';
+import 'package:game/service/ws_service.dart';
 import 'package:get/get.dart';
 
 class HomeLogic extends GetxController {
+  
+  final RoomService roomService = Get.find();
+  final WebsocketService websocketService = Get.find();
+
   Rx<String> roomNumberStr = ''.obs;
 
   Rx<int> playerNum = 4.obs;
@@ -18,14 +24,17 @@ class HomeLogic extends GetxController {
 
 
   joinRoom(int roomNumber) {
-    print('加入房间号：$roomNumber');
+    LoggerUtil.i('加入房间号：$roomNumber');
 
-    // todo 调用接口
-
-    // 跳转到房间大厅
-
+    // 调用接口
+    roomService.joinRoom(roomNumber);
 
     // 建立ws
+    websocketService.connect(0);
+
+    // 跳转到房间大厅
+    Get.to(RoomPage(), arguments: {"roomId": roomNumber});
+
   }
 
   void updatePlayerNum(int playerNum) {

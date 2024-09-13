@@ -18,10 +18,10 @@ class RoomService extends GetxService {
 
   static RoomService get to => Get.find();
 
-  Future<void> joinRoom(String roomId) async {
+  Future<void> joinRoom(int roomId) async {
     LoggerUtil.i('join room $roomId');
     SmartDialog.showLoading();
-    R<void> r = await repository.joinRoom(int.parse(roomId));
+    R<void> r = await repository.joinRoom(roomId);
     SmartDialog.dismiss(status: SmartStatus.loading);
     if (!r.ok) {
       throw BizException(r.error?.message ?? '加入房间失败');

@@ -20,7 +20,6 @@ class WebsocketService {
     this.userId = userId;
     channel ??= WebSocketChannel.connect(
           Uri.parse('${ApiConstants.wsBaseUrl}?userId=$userId'));
-
   }
 
   void send(String message) {
