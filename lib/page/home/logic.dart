@@ -12,8 +12,6 @@ class HomeLogic extends GetxController {
   }
 
   connectWs() {
-    int userId = userService.getUserId;
-    websocketService.connect(userId);
 
   }
 

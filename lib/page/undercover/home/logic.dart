@@ -30,7 +30,7 @@ class HomeLogic extends GetxController {
     roomService.joinRoom(roomNumber);
 
     // 建立ws
-    websocketService.connect(0);
+    websocketService.initWebsocket();
 
     // 跳转到房间大厅
     Get.to(RoomPage(), arguments: {"roomId": roomNumber});
