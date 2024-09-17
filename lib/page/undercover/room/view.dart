@@ -21,7 +21,7 @@ class _RoomPage extends State<RoomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('房间'),
+        title: Text('房间: ${widget.logic.roomId}'),
       ),
       body: Column(
         children: [

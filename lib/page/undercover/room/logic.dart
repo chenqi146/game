@@ -28,6 +28,8 @@ class RoomLogic extends GetxController {
     ),
   ).obs;
 
+  int get roomId => room.value.roomId;
+
   bool isRoomOwner() {
     return room.value.homeOwnersUserId == UserService.to.getUserId;
   }

@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flustars/flustars.dart';
 import 'package:game/app_constants.dart';
+import 'package:game/common/utils/event_bus.dart';
 import 'package:game/common/utils/logger.dart';
+import 'package:game/models/websocket_message.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebsocketService {
@@ -42,12 +45,22 @@ class WebsocketService {
   }
 
   void webSocketOnData(event) {
-    print('onData');
-    // todo eventBus
+    if (event == null) {
+      return;
+    }
+
+    try {
+      LoggerUtil.i('onData: $event');
+      var message = WsMessage.fromJson(jsonDecode(event));
+      // todo 测试浏览器是否自动回复心跳
+      EventBusUtil.instance.fire(message);
+    } catch (e) {
+      LoggerUtil.e('onData => receive data: $event, error: $e');
+    }
   }
 
   void webSocketOnError(err) {
-    LoggerUtil.e("ws连接失败: ${err}");
+    LoggerUtil.e("ws连接失败: $err");
     if (channel != null) {
       channel?.sink.close();
       channel = null;
