@@ -22,81 +22,93 @@ class HomePage extends BaseStatefulPage<HomeLogic> {
 }
 
 class _HomePage extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[50],
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              const Column(
-                children: [
-                  SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      // '游戏大厅',
-                      'XXXX',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Obx(() => Column(
+      body: FutureBuilder(
+        future: widget.logic.initUser(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Column(
+              children: [
+                Stack(
+                  children: [
+                    const Column(
                       children: [
-                        IconButton(
-                            onPressed: () {
-                              _showUserDialog();
-                            },
-                            iconSize: 10,
-                            icon: Container(
-                              width: 48.0, // 设置外部容器的宽度
-                              height: 48.0, // 设置外部容器的高度
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.black, // 边框颜色
-                                  width: 1.0, // 边框宽度
-                                ),
-                              ),
-                              child: CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                backgroundImage:
-                                    AssetImage(UserService.to.getAvatarUrl()),
-                                radius: 20,
-                              ),
-                            )),
-                        Text(
-                          UserService.to.getNickName,
-                          style: const TextStyle(fontSize: 10),
+                        SizedBox(height: 20),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            // '游戏大厅',
+                            'XXXX',
+                            style:
+                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ],
-                    )),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MaterialButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  color: Colors.amber,
-                  minWidth: 40,
-                  height: 50,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/undercover');
-                  },
-                  child: const Text('我是卧底')),
-            ],
-          ),
-          const SizedBox(height: 84),
-        ],
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Obx(() => Column(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                _showUserDialog();
+                              },
+                              iconSize: 10,
+                              icon: Container(
+                                width: 48.0, // 设置外部容器的宽度
+                                height: 48.0, // 设置外部容器的高度
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.black, // 边框颜色
+                                    width: 1.0, // 边框宽度
+                                  ),
+                                ),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  backgroundImage:
+                                  AssetImage(UserService.to.getAvatarUrl()),
+                                  radius: 20,
+                                ),
+                              )),
+                          Text(
+                            UserService.to.getNickName,
+                            style: const TextStyle(fontSize: 10),
+                          ),
+                        ],
+                      )),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        color: Colors.amber,
+                        minWidth: 40,
+                        height: 50,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/undercover');
+                        },
+                        child: const Text('我是卧底')),
+                  ],
+                ),
+                const SizedBox(height: 84),
+              ],
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }

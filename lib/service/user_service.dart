@@ -29,7 +29,11 @@ class UserService extends GetxService {
 
   @override
   void onInit() async {
+    super.onInit();
+    await initUser();
+  }
 
+  Future<void> initUser() async {
     int? userId = SpUtil.getInt("userId");
     if (userId == null || userId <= 0) {
       // 创建一个用户
@@ -54,7 +58,6 @@ class UserService extends GetxService {
       nickName.value = SpUtil.getString("nickName")!;
       avatar.value = SpUtil.getString("avatar")!;
     }
-    super.onInit();
   }
 
   updateUserInfo(String nickName, String avatar) async {

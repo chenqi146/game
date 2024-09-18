@@ -11,8 +11,8 @@ class HomeLogic extends GetxController {
     UserService.to.updateUserInfo(nickName, avatar);
   }
 
-  connectWs() {
-
+  Future<void> initUser() {
+    return userService.initUser();
   }
 
 }

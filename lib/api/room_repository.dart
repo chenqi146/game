@@ -32,7 +32,7 @@ class RoomRepository extends GetxService {
   }
 
   Future<R<void>> joinRoom(int roomId) async {
-    final res = await httpClient.post("/room/join/$roomId");
+    final res = await httpClient.post("/room/join", data: {"roomId": roomId});
     return res.convert();
   }
 
