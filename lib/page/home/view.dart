@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:game/common/base/base_stateful_page.dart';
 import 'package:game/common/utils/utils.dart';
+import 'package:game/components/icon_avatar.dart';
 import 'package:game/service/user_service.dart';
 import 'package:get/get.dart';
 
@@ -49,38 +50,29 @@ class _HomePage extends State<HomePage> {
                         ),
                       ],
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Obx(() => Column(
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                _showUserDialog();
-                              },
-                              iconSize: 10,
-                              icon: Container(
-                                width: 48.0, // 设置外部容器的宽度
-                                height: 48.0, // 设置外部容器的高度
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.black, // 边框颜色
-                                    width: 1.0, // 边框宽度
-                                  ),
-                                ),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.transparent,
-                                  backgroundImage:
-                                  AssetImage(UserService.to.getAvatarUrl()),
-                                  radius: 20,
-                                ),
-                              )),
-                          Text(
-                            UserService.to.getNickName,
-                            style: const TextStyle(fontSize: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0), // 添加 Padding
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Obx(() => PlayerAvatar(
+                          avatarUrl: UserService.to.getAvatarUrl(),
+                          playerName: UserService.to.getNickName,
+                          onTap: _onAvatarTap,
+                          selectedOverlay: Container(
+                            width: 48.0,
+                            height: 48.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.black.withOpacity(0.5),
+                            ),
+                            child: const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 30,
+                            ),
                           ),
-                        ],
-                      )),
+                        )),
+                      ),
                     ),
                   ],
                 ),
@@ -111,6 +103,10 @@ class _HomePage extends State<HomePage> {
         },
       ),
     );
+  }
+
+  void _onAvatarTap() {
+    _showUserDialog();
   }
 
   void _showUserDialog() {
@@ -151,7 +147,7 @@ class _HomePage extends State<HomePage> {
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: Colors.black, // 边框颜色
-                              width: 1.0, // 边框宽度
+                              width: 3.0, // 将边框宽度从 1.0 增加到 3.0
                             ),
                           ),
                           child: CircleAvatar(

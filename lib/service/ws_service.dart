@@ -30,7 +30,7 @@ class WebsocketService {
     return _instance;
   }
 
-  void initWebsocket() {
+  void initWebsocket() async {
     userId = SpUtil.getInt("userId");
     channel = WebSocketChannel.connect(
         Uri.parse('${ApiConstants.wsBaseUrl}?userId=$userId'));
@@ -50,6 +50,12 @@ class WebsocketService {
     }
 
     try {
+
+      // 判断event是否是json字符串
+      if (!event.startsWith('{')) {
+        return;
+      }
+
       LoggerUtil.i('onData: $event');
       var message = WsMessage.fromJson(jsonDecode(event));
       // todo 测试浏览器是否自动回复心跳
@@ -96,7 +102,7 @@ class WebsocketService {
     const Duration duration = Duration(seconds: 10);
     callback(timer) {
       // todo 心跳消息
-      channel?.sink.add('heartbeat');
+      channel?.sink.add('ping');
     }
 
     _heartbeatTimer = Timer.periodic(duration, callback);

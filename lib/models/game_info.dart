@@ -12,34 +12,38 @@ class GameInfo {
   int gameId;
   String undercoverWord;
   String civilianWord;
-  List<int> undercoverUserIds;
-  List<int> civilianUserIds;
-  List<int> eliminatedUserIds;
+  List<int>? undercoverUserIds;
+  List<int>? civilianUserIds;
+  List<int>? eliminatedUserIds;
 
   GameInfo({
     required this.gameId,
     required this.undercoverWord,
     required this.civilianWord,
-    required this.undercoverUserIds,
-    required this.civilianUserIds,
-    required this.eliminatedUserIds,
+    this.undercoverUserIds,
+    this.civilianUserIds,
+    this.eliminatedUserIds,
   });
 
-  factory GameInfo.fromJson(Map<String, dynamic> json) => GameInfo(
-    gameId: json["gameId"],
-    undercoverWord: json["undercoverWord"],
-    civilianWord: json["civilianWord"],
-    undercoverUserIds: List<int>.from(json["undercoverUserIds"].map((x) => x)),
-    civilianUserIds: List<int>.from(json["civilianUserIds"].map((x) => x)),
-    eliminatedUserIds: List<int>.from(json["eliminatedUserIds"].map((x) => x)),
-  );
+  factory GameInfo.fromJson(Map<String, dynamic> json) {
+    return GameInfo(
+      gameId: json["gameId"],
+      undercoverWord: json["undercoverWord"],
+      civilianWord: json["civilianWord"],
+      undercoverUserIds: json["undercoverUserIds"] != null ? List<int>.from(json["undercoverUserIds"].map((x) => x)) : null,
+      civilianUserIds: json["civilianUserIds"] != null ? List<int>.from(json["civilianUserIds"].map((x) => x)) : null,
+      eliminatedUserIds: json["eliminatedUserIds"] != null ? List<int>.from(json["eliminatedUserIds"].map((x) => x)) : null,
+    );
+  }
+  
+  
 
   Map<String, dynamic> toJson() => {
-    "gameId": gameId,
-    "undercoverWord": undercoverWord,
-    "civilianWord": civilianWord,
-    "undercoverUserIds": List<dynamic>.from(undercoverUserIds.map((x) => x)),
-    "civilianUserIds": List<dynamic>.from(civilianUserIds.map((x) => x)),
-    "eliminatedUserIds": List<dynamic>.from(eliminatedUserIds.map((x) => x)),
-  };
+        "gameId": gameId,
+        "undercoverWord": undercoverWord,
+        "civilianWord": civilianWord,
+        "undercoverUserIds": undercoverUserIds,
+        "civilianUserIds": civilianUserIds,
+        "eliminatedUserIds": eliminatedUserIds
+      };
 }

@@ -8,11 +8,12 @@ part 'user.g.dart';
 @JsonSerializable()
 class User {
 
-  User(this.id, this.name);
+  User(this.userId, this.nickname, this.avatar);
 
 
-  int id;
-  String name;
+  int userId;
+  String nickname;
+  String avatar;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
